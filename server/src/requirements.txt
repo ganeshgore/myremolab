@@ -1,0 +1,48 @@
+# 
+# These are the required libraries. Without them, WebLab-Deusto
+# will not work.
+# 
+
+# 
+# sqlalchemy manages the database, both for management (users, groups, 
+# permissions, storage) and for scheduling if redis is not used. It can
+# rely on sqlite or server-based databases such as MySQL.
+# 
+# While it does not strictly require anything to be installed, the Python
+# includes are highly recommended to compile the speedups. So in Ubuntu
+# install:   
+# 
+#     sudo apt-get install build-essential python-dev
+# 
+
+# We use 0.7.100 to avoid the 0.8.0betas (which are < 0.8)
+SQLAlchemy<0.7.100
+
+
+# 
+# SOAPpy is used for communication among different WebLab-Deusto processes.
+# It is not strictly required (other protocols can be used), but it is the
+# one that provides less errors.
+# 
+
+SOAPpy<0.13
+
+#
+# Limit the version of Flask-WTF to lower than 0.9. There are some
+# WebLab incompatibility issues with higher versions.
+#
+Flask-WTF<0.9
+
+# 
+# Flask_admin is used for the new administration panel
+# 
+# Flask-Admin>=1.0.4,<1.1
+Flask-Admin==1.0.6
+
+# Flask 0.9 is used
+Flask==0.9
+
+# 
+# alembic is used for upgrading the database from version to version
+# 
+alembic<0.6

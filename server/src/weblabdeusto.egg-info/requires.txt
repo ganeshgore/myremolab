@@ -1,0 +1,10 @@
+SQLAlchemy<0.7.100
+SOAPpy<0.13
+Flask-WTF<0.9
+Flask-Admin==1.0.6
+Flask==0.9
+alembic<0.6
+redis<2.7
+PyMySQL<0.6
+pymysql_sa<1.1
+python-openid<2.3
