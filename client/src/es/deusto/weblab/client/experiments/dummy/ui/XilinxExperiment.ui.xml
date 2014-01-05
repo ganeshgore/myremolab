@@ -1,0 +1,104 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:w="urn:import:es.deusto.weblab.client.ui.widgets"
+    >
+    
+    
+    	<g:VerticalPanel ui:field="widget" width='1000px' horizontalAlignment='ALIGN_CENTER'>
+        
+		<g:VerticalPanel ui:field="verticalPanel" width='100%' horizontalAlignment='ALIGN_CENTER' verticalAlignment="ALIGN_BOTTOM">
+		
+			<g:Label ui:field="selectProgram" horizontalAlignment="ALIGN_CENTER">
+			Select the program to send:
+			</g:Label>
+		
+			<!-- Originally the width was 85% but apparently the webcam doesn't appear centered in that case. -->
+			<g:VerticalPanel ui:field="innerVerticalPanel" borderWidth='0' horizontalAlignment='ALIGN_RIGHT' width='100%' spacing='0' >
+				
+				<!--  Panel with the switches -->
+			
+				<!--  Panel with the buttons -->
+				<g:HorizontalPanel width="100%" height="100%" verticalAlignment="ALIGN_BOTTOM">
+					<g:VerticalPanel width="450px" verticalAlignment="ALIGN_BOTTOM">
+						<g:SimplePanel>
+							<g:Image width="450px" height="180px" url="weblabclientlab/img/arduino/breadboard.png" ui:field="outputDeviceImage"/>
+						</g:SimplePanel>
+						<g:SimplePanel ui:field="CenterImage">
+							<g:Image width="450px" height="300px" url="weblabclientlab/img/arduino/MainArduino.jpg"/>
+						</g:SimplePanel>
+						<g:HorizontalPanel ui:field="PushSwRow" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pushSwPan" verticalAlignment="ALIGN_MIDDLE" visible="false">
+							<w:WlSwitch title="3" spacing="5" ui:field="sw1"></w:WlSwitch>
+							<w:WlSwitch title="2" spacing="5" ui:field="sw2"></w:WlSwitch>
+							<w:WlSwitch title="1" spacing="5" ui:field="sw3"></w:WlSwitch>
+							<w:WlSwitch title="0" spacing="5" ui:field="sw4"></w:WlSwitch>
+						</g:HorizontalPanel>
+						<g:HorizontalPanel ui:field="PulseSwRow" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pulseSwPan" verticalAlignment="ALIGN_MIDDLE" visible="false">
+							<w:WlTimedButton title="3" ui:field="psw1"></w:WlTimedButton>
+							<w:WlTimedButton title="2" ui:field="psw2"></w:WlTimedButton>
+							<w:WlTimedButton title="1" ui:field="psw3"></w:WlTimedButton>
+							<w:WlTimedButton title="0" ui:field="psw4"></w:WlTimedButton>					
+						</g:HorizontalPanel>
+					</g:VerticalPanel>
+					<g:VerticalPanel width="50px"/>
+					<g:VerticalPanel width="450px" horizontalAlignment="ALIGN_CENTER" >
+						<g:HorizontalPanel ui:field="webcamPanel" width="450px" horizontalAlignment="ALIGN_CENTER" height="300px" />
+						<g:HorizontalPanel ui:field="timerMessagesPanel" horizontalAlignment="ALIGN_LEFT" width="100%">
+					<w:WlTimer ui:field="timer"></w:WlTimer>
+					
+					<w:WlWaitingLabel ui:field="messages" horizontalAlignment="ALIGN_CENTER" direction="RTL"></w:WlWaitingLabel>
+				</g:HorizontalPanel>
+						<g:HorizontalPanel ui:field="controlButtons" styleName="gwt-test" horizontalAlignment="ALIGN_CENTER" width="100%">
+							<g:Button text="Reset Board" ui:field="ResetArduino"/>
+							<g:Button text="Pause"/>
+							<g:Button text="Resume"/>
+						</g:HorizontalPanel>
+						
+						<g:Cell width="100%">
+							<g:HorizontalPanel ui:field="fileupload" styleName="gwt-test" horizontalAlignment="ALIGN_CENTER" width="100%"/>
+								
+						</g:Cell>
+						<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" width="100%" spacing="5">
+							<g:Label text="Not Uploaded" ui:field="UploadStat"/>
+							<g:Button ui:field="uploadFile" text="UploadFile"/>
+						</g:HorizontalPanel>
+						
+						<g:HorizontalPanel width="100%" verticalAlignment="ALIGN_BOTTOM" horizontalAlignment="ALIGN_RIGHT" spacing="1">
+							<g:SimplePanel width="100%" height="120px">
+								<g:TextBox ui:field="LogWindow" height="100%" width="300px"/>
+							</g:SimplePanel>
+							
+							<g:VerticalPanel verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER" spacing="20" width="150px">
+								<g:Button ui:field="BuilldButton" text="Build Code"/>
+								<g:Button ui:field="upload2boardButton" text="Upload to Board"/>
+							</g:VerticalPanel>
+							
+						</g:HorizontalPanel>
+					</g:VerticalPanel>
+				</g:HorizontalPanel>
+				
+			</g:VerticalPanel>
+			
+		</g:VerticalPanel>
+		
+		<!-- The upload form will be inserted into this panel. -->
+		<g:HorizontalPanel ui:field="uploadStructurePanel" horizontalAlignment="ALIGN_CENTER" width="100%">
+			
+			<g:VerticalPanel ui:field="inputchekbx" horizontalAlignment="ALIGN_LEFT" width="150px">
+				<g:CheckBox ui:field='chkBox4' name="44mat">4x4 Matrix Keypad</g:CheckBox>
+				<g:CheckBox ui:field='chkBox5' name="4pushsw">4 Push Switch</g:CheckBox>
+				<g:CheckBox ui:field='chkBox6' name="4pulsesw">4 Pulse Switch</g:CheckBox>
+			</g:VerticalPanel>
+			
+			<g:VerticalPanel ui:field="outputchekbx" horizontalAlignment="ALIGN_LEFT" width="150px">		
+				<g:CheckBox ui:field='chkBox1' name="4led">4 LEDs Bar</g:CheckBox>
+				<g:CheckBox ui:field='chkBox2' name="7seg">7Segment Display</g:CheckBox>
+				<g:CheckBox ui:field='chkBox3' name="charlcd">Character LCD</g:CheckBox>
+			</g:VerticalPanel>
+					    
+			
+		</g:HorizontalPanel>
+		
+	</g:VerticalPanel>
+	
+
+</ui:UiBinder>

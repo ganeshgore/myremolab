@@ -1,0 +1,52 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		/* Add CSS here. See the GWT docs on UI Binder for more details */
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<!-- Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete 
+			widget names. The ui:field attribute binds an element to a field in the owner 
+			class. See the GWT docs on UI Binder for more details. -->
+		
+		
+		
+		<g:HorizontalPanel>
+			<g:VerticalPanel  ui:field="mykeypad" height="230px" 	 width="230px" styleName="keypadBack" verticalAlignment="ALIGN_MIDDLE" >
+				<g:HorizontalPanel  spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
+					<g:Button  title="1" width="29px" height="29px" styleName="colorButton">1</g:Button>
+					<g:Button  title="2" width="29px" height="29px" styleName="colorButton">2</g:Button>
+					<g:Button  title="3" width="29px" height="29px" styleName="colorButton">3</g:Button>
+					<g:Button  title="A" width="29px" height="29px" styleName="colorButton">A</g:Button>
+				</g:HorizontalPanel>
+							
+							
+				<g:HorizontalPanel  spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
+					<g:Button  title="4"	width="29px" height="29px" styleName="colorButton">4</g:Button>
+					<g:Button  title="5"	width="29px" height="29px" styleName="colorButton">5</g:Button>
+					<g:Button  title="6"	width="29px" height="29px" styleName="colorButton">6</g:Button>
+					<g:Button  title="B"	width="29px" height="29px" styleName="colorButton">B</g:Button>
+				</g:HorizontalPanel>
+							
+							
+				<g:HorizontalPanel spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
+					<g:Button  title="7"  width="29px" height="29px" styleName="colorButton">7</g:Button>
+					<g:Button  title="8"  width="29px" height="29px" styleName="colorButton">8</g:Button>
+					<g:Button  title="9"  width="29px" height="29px" styleName="colorButton">9</g:Button>
+					<g:Button  title="C"  width="29px" height="29px" styleName="colorButton">C</g:Button>
+				</g:HorizontalPanel>
+							
+							
+				<g:HorizontalPanel spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
+					<g:Button  title="*"   width="29px" height="29px" styleName="colorButton2">*</g:Button>
+					<g:Button  title="0"  width="29px" height="29px" styleName="colorButton">0</g:Button>
+					<g:Button  title="#"  width="29px" height="29px" styleName="colorButton2">#</g:Button>
+					<g:Button  title="D"  width="29px" height="29px" styleName="colorButton">D</g:Button>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
