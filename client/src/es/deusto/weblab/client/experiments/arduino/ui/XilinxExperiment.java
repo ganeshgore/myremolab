@@ -59,7 +59,7 @@ public class XilinxExperiment extends ExperimentBase{
 	private static final String DEFAULT_XILINX_WEBCAM_IMAGE_URL       = GWT.getModuleBaseURL() + "/img/arduino/webcam.jpg";
 	
 	private static final String XILINX_WEBCAM_REFRESH_TIME_PROPERTY   = "webcam.refresh.millis";
-	private static final int    DEFAULT_XILINX_WEBCAM_REFRESH_TIME    = 400;
+	private static final int    DEFAULT_XILINX_WEBCAM_REFRESH_TIME    = 200;
 	
 	public static class Style{
 		public static final String TIME_REMAINING         = "wl-time_remaining";
@@ -67,6 +67,7 @@ public class XilinxExperiment extends ExperimentBase{
 	}
 	
 	private static final boolean DEBUG_ENABLED = false;
+	
 	
 	@UiField public VerticalPanel verticalPanel;
 	@UiField VerticalPanel widget;
@@ -83,7 +84,7 @@ public class XilinxExperiment extends ExperimentBase{
 	//@UiField(provided=true)
 	private UploadStructure uploadStructure;
 	
-	private WlWebcam webcam;
+	public WlWebcam webcam;
 	
 	@UiField(provided = true)
 	WlTimer timer;
@@ -444,6 +445,8 @@ public class XilinxExperiment extends ExperimentBase{
 		}
 		else
 			Window.alert("No Output device Selected");
+		
+		this.boardController.sendCommand("WEBCAMURL", this.getResponseCommandCallback());
 	}
 	
 

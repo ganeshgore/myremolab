@@ -40,12 +40,13 @@ class Arduino1Experiment(Experiment.Experiment):
         self.server_identifier = cfg_manager.get_doc_value(configuration_doc.CORE_UNIVERSAL_IDENTIFIER_HUMAN)
         self._current_state = STATE_BUSY
         self.arduino_port       = cfg_manager.get_value("Arduino_Port", "/dev/usb0")
-        self.arduinocompilepath   = cfg_manager.get_value("ArduinoComplilePath", "/dev/usb1")
         self.arduinobaseboard_port = cfg_manager.get_value("ArduinoBaseBoard_Port", "/dev/usb1")
+        self.ArduinoCodeDir   = self.cfg_manager.get_value("ArduinoCodeDir", "ExperimentData/Arduino/Set01")
         self._ArduinoProgrammer    = ArduinoProgrammer(cfg_manager)
         self._ArduinoBaseBoard     = ArduinoBaseBoard(cfg_manager)
+        self.ArduinoStreamUrl = self.cfg_manager.get_value("ArduinoStreamUrl", "/weblab/arduino/arduino1/video.mjpeg")
         if self.verbose:
-            print ("arduino_port - %s arduinocompilepath -%s arduinobaseboard_port %s"%(self.arduino_port,self.arduinocompilepath,self.arduinobaseboard_port) )
+            print ("arduino_port - %s | ArduinoCodeDir -%s | arduinobaseboard_port %s"%(self.arduino_port,self.ArduinoCodeDir,self.arduinobaseboard_port) )
             
             
     @Override(Experiment.Experiment)
@@ -59,8 +60,15 @@ class Arduino1Experiment(Experiment.Experiment):
             retstring =  "failed to load Experiment >> Arduino not found on port " , self.arduino_port
         if not (self._ArduinoBaseBoard.checkdevice()):
             retstring = "failed to load Experiment >> Base Board not found on port " , self.arduinobaseboard_port
+        
+        if (self._ArduinoBaseBoard.sendcommand("G+START+BO")):
+            retstring = "Starting Arduino"
+        else: 
+            retstring = "Error in Starting Arduino" 
+            self._current_state = STATE_FAILED
+            
         if self.verbose:
-            print "Arduino 1 Experiment started"
+            print "Arduino 1 Experiment started + " , retstring 
 
     @Override(Experiment.Experiment)
     def do_send_command_to_device(self, command):
@@ -129,6 +137,11 @@ class Arduino1Experiment(Experiment.Experiment):
                 else: 
                     retstring = "Error in selecting Output Device"
                     self._current_state = STATE_FAILED
+            #- - - - - - - - - - - - - - - - Device Selection Command - - - - - - - - - - - - - - - - -       
+            elif 'WEBCAMURL' in command:
+                print "Returning WEBCAMURL - " , self.ArduinoStreamUrl
+                return "Returning WEBCAMURL - " , self.ArduinoStreamUrl            
+                     
             #- - - - - - - - - - - - - - - - Status reporting Command - - - - - - - - - - - - - - - - -
             elif (command == 'STAT'):
                 retstring =  self._current_state
@@ -154,6 +167,17 @@ class Arduino1Experiment(Experiment.Experiment):
 
     @Override(Experiment.Experiment)
     def do_dispose(self):
+        if (self._ArduinoBaseBoard.sendcommand("G+RESET+OP")):
+            retstring = "Outpur Devices Reset"
+        else: 
+            retstring = "Error in Outpur Devices Reset" 
+            self._current_state = STATE_FAILED
+            
+        if (self._ArduinoBaseBoard.sendcommand("G+STOP+BO")):
+            retstring = "Stopping Arduino"
+        else: 
+            retstring = "Error in Stoping Arduino" 
+            self._current_state = STATE_FAILED
         if self.verbose:
             print "dispose"
 

@@ -13,6 +13,7 @@
 */ 
 package es.deusto.weblab.client.experiments.arduino.ui;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 
 import es.deusto.weblab.client.comm.exceptions.CommException;
@@ -64,6 +65,12 @@ public class ArduinoExperiment extends XilinxExperiment {
 		if(!responseCommand.isEmpty()){
 			this.arduinoMessages.setText("Response command: " + responseCommand.getCommandString());
 			ArduinoExperiment.this.LogWindow.setText(ArduinoExperiment.this.LogWindow.getText() + "\n" + responseCommand.getCommandString());
+			
+			if (responseCommand.getCommandString().contains("WEBCAMURL")){
+				Window.alert("Receied WEBCAM URL");
+				ArduinoExperiment.this.webcam.setUrl(responseCommand.getCommandString().split("'")[3]);
+				Window.alert(ArduinoExperiment.this.webcam.getUrl());
+			}
 		}
 		else
 			this.arduinoMessages.setText("Response command: empty");

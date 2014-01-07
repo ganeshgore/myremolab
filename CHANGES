@@ -1,0 +1,152 @@
+=======
+CHANGES
+=======
+
+5.0
+===
+
+Date: (pending)
+
+- server
+  - scheduling
+    - support for batch experiments
+
+    - scheduling system reimplemented in redis. Right now, to versions are
+      supported: redis and sql. The SQL one has been tested on sqlite and MySQL
+      (using pymysql and using MySQLdb). The redis version is the fastest, the
+      sqlite is better one a single core is used, but the MySQLdb version is
+      faster than the sqlite when more than one core server is used.
+
+  - federation
+    - support for federated experiments (sharing experiments among different 
+      universities)
+
+    - support for subcontracting experiments (university A provides experiment
+      X to University B: then University B can provide experiment X to School
+      C)
+
+    - support for load balance among different universities (if university A 
+      and B have experiment X, then users will see it as a single queue)
+
+  - big module and package naming changes
+    - modules are now lowercase and have more straightforward names
+
+    - setup.py is now used to deploy the system.
+
+  - weblab-admin is the script than now manages and creates weblab-deusto 
+    instances.
+
+  - A new web administrator is available, which covers all the administration 
+    functionalities.
+
+  - Drop MySQL, Apache as mandatory requirements. If you pass --http-server-port
+    8000 to the weblab-admin creation script, it will deploy a small server
+    useful for testing. MySQL is not mandatory since sqlite can also be used.
+
+- experiments
+  - Experimental support for LabVIEW Remote Panel as an unmanaged experiment
+
+  - New experiments API to support concurrent experiments (where more than one
+    user can be interacting with the equipment).
+
+  - New expermients API that supports that students are kicked out if the
+    laboratory considers that their session should end (e.g. if they fail in a
+    game).
+
+- requirements
+  - Drop support for Python 2.5
+
+- other
+  - migrated from SVN to Mercurial and then to git.
+
+4.0M1 
+=====
+
+Date: April 7th, 2011
+
+- server
+  - scheduling
+    - rewritten, supporting multiqueues and composed experiments of different
+      server types
+
+
+  - authentication
+    - Support of OpenID
+
+    - Support of Facebook through OAuth 2
+
+
+  - administration
+    - Creation of the Administration Panel (web-based, few features) and
+      dbmanager
+
+    - WebLab will automatically check the experiments status and discard those
+      that fail to reply from the schedulin system, mailing administrators, and
+      it will automatically mark them as fixed once they are fixed
+
+
+  - internal
+    - Database tables simplified
+
+    - Removed SQL code: now we are using sqlalchemy ORM
+
+    - Should be independent of MySQL, but we have not tested it
+
+
+- client
+  - adaptation to mobile phones
+
+  - new login panel
+
+  - Optional support for HTML5 audio tag
+
+
+- experiments
+  - Support of experiments based on Virtual Machines (first type of unmanaged
+    experiments)
+ 
+  - Integration of VISIR
+
+
+- license
+  - Moved from GNU GPL 2 to New BSD 2-clause license
+
+
+- requirements
+  - Drop support for Python 2.4; start support for Python 2.7
+
+  - Client does not need to be recompiled to add Java or Flash experiments
+
+  - No PHP or mod_python required, neither Java for deploying the system
+
+3.9
+===
+
+Date: January 25th, 2010
+
+ - First Open Source release!
+(...)
+
+3.5
+===
+
+
+
+3.0
+===
+
+Date: November, 2007
+
+2.0
+===
+
+Date: November, 2005
+
+
+1.0
+===
+Date: February, 2005
+
+
+
+

@@ -58,7 +58,22 @@ class ArduinoProgrammer:
     def __init__(self, cfg_manager):
         #super(ArduinoProgrammer, self).__init__()
         self._cfg_manager = cfg_manager
-    
+        self.ArduinoCodeDir   = self._cfg_manager.get_value("ArduinoCodeDir", "ExperimentData/Arduino/Set01")
+        self.arduino_port = self._cfg_manager.get_value("Arduino_Port", "/dev/usb0")
+        init_dir = os.getcwd()
+        os.chdir(self.ArduinoCodeDir)
+        f=open("ino.ini",'w')
+        f.write("[build] \n\
+                board-model = atmega8 \n\
+                [upload] \n\
+                board-model = atmega8 \n\
+                serial-port = %s \n\
+                [serial] \n\
+                serial-port = %s" %(self.arduino_port,self.arduino_port) )
+        f.close()
+        print "File Writing Completed"
+        os.chdir(init_dir)
+        
     @abstractmethod
     def checkdevice(self):
         return 1
@@ -66,8 +81,8 @@ class ArduinoProgrammer:
     @abstractmethod
     def build(self):
         init_dir = os.getcwd()
-        self.ArduinoCodeDir   = self._cfg_manager.get_value("ArduinoCodeDir", "ExperimentData/Arduino/Set01")
         os.chdir(self.ArduinoCodeDir)
+        print "Trying to build arduino in path get CWD - ", os.getcwd()
         proc = subprocess.Popen(["ino","build"], stdout=subprocess.PIPE)
         for line in iter(proc.stdout.readline, b''):
             print ">>" , line 
@@ -109,5 +124,7 @@ class ArduinoBaseBoard:
         except Exception as e: 
             print "Device Error " + str(e)
             status = False
-        return status         
-    
+        return status 
+                
+
+          

@@ -44,6 +44,7 @@ class Arduino1Experiment(Experiment.Experiment):
         self.ArduinoCodeDir   = self.cfg_manager.get_value("ArduinoCodeDir", "ExperimentData/Arduino/Set01")
         self._ArduinoProgrammer    = ArduinoProgrammer(cfg_manager)
         self._ArduinoBaseBoard     = ArduinoBaseBoard(cfg_manager)
+        self.ArduinoStreamUrl = self.cfg_manager.get_value("ArduinoStreamUrl", "/weblab/arduino/arduino1/video.mjpeg")
         if self.verbose:
             print ("arduino_port - %s | ArduinoCodeDir -%s | arduinobaseboard_port %s"%(self.arduino_port,self.ArduinoCodeDir,self.arduinobaseboard_port) )
             
@@ -136,6 +137,11 @@ class Arduino1Experiment(Experiment.Experiment):
                 else: 
                     retstring = "Error in selecting Output Device"
                     self._current_state = STATE_FAILED
+            #- - - - - - - - - - - - - - - - Device Selection Command - - - - - - - - - - - - - - - - -       
+            elif 'WEBCAMURL' in command:
+                print "Returning WEBCAMURL -" , self.ArduinoStreamUrl
+                return "Returning WEBCAMURL -" , self.ArduinoStreamUrl            
+                     
             #- - - - - - - - - - - - - - - - Status reporting Command - - - - - - - - - - - - - - - - -
             elif (command == 'STAT'):
                 retstring =  self._current_state
