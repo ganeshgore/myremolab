@@ -14,7 +14,7 @@
 package es.deusto.weblab.client.experiments.arduino.ui;
 
 import es.deusto.weblab.client.dto.experiments.Command;
-import es.deusto.weblab.client.experiments.xilinx.commands.PulseCommand;
+import es.deusto.weblab.client.experiments.arduino.commands.PulseCommand;
 import es.deusto.weblab.client.lab.comm.callbacks.IResponseCommandCallback;
 import es.deusto.weblab.client.lab.experiments.IBoardBaseController;
 import es.deusto.weblab.client.ui.widgets.WlButton.IWlButtonUsed;

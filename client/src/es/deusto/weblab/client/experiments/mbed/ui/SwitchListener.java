@@ -11,7 +11,7 @@
 * Author: Pablo Orduña <pablo@ordunya.com>
 *
 */ 
-package es.deusto.weblab.client.experiments.dummy.ui;
+package es.deusto.weblab.client.experiments.mbed.ui;
 
 import es.deusto.weblab.client.dto.experiments.Command;
 import es.deusto.weblab.client.experiments.arduino.commands.SwitchCommand;

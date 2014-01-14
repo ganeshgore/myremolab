@@ -14,8 +14,8 @@
 package es.deusto.weblab.client.experiments.dummy.ui;
 
 import es.deusto.weblab.client.dto.experiments.Command;
-import es.deusto.weblab.client.experiments.xilinx.commands.ClockActivationCommand;
-import es.deusto.weblab.client.experiments.xilinx.commands.ClockDeactivationCommand;
+import es.deusto.weblab.client.experiments.arduino.commands.ClockActivationCommand;
+import es.deusto.weblab.client.experiments.arduino.commands.ClockDeactivationCommand;
 import es.deusto.weblab.client.lab.comm.callbacks.IResponseCommandCallback;
 import es.deusto.weblab.client.lab.experiments.IBoardBaseController;
 import es.deusto.weblab.client.ui.widgets.WlClockActivator.IWlClockActivationListener;

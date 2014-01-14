@@ -11,32 +11,35 @@
 * Author: Pablo Orduña <pablo@ordunya.com>
 *
 */ 
-package es.deusto.weblab.client.experiments.dummy.ui;
+package es.deusto.weblab.client.experiments.mbed.ui;
 
 import es.deusto.weblab.client.dto.experiments.Command;
-import es.deusto.weblab.client.experiments.arduino.commands.SwitchCommand;
+import es.deusto.weblab.client.experiments.arduino.commands.PulseCommand;
 import es.deusto.weblab.client.lab.comm.callbacks.IResponseCommandCallback;
 import es.deusto.weblab.client.lab.experiments.IBoardBaseController;
-import es.deusto.weblab.client.ui.widgets.IWlActionListener;
-import es.deusto.weblab.client.ui.widgets.IWlWidget;
-import es.deusto.weblab.client.ui.widgets.WlSwitch;
+import es.deusto.weblab.client.ui.widgets.WlButton.IWlButtonUsed;
 
-class SwitchListener implements IWlActionListener{
-
+class ButtonListener implements IWlButtonUsed {
+	
 	private final int n;
 	private final IBoardBaseController commandSender;
 	private final IResponseCommandCallback commandCallback;
 	
-	public SwitchListener(int n, IBoardBaseController commandSender, IResponseCommandCallback commandCallback){
+	public ButtonListener(int n, IBoardBaseController commandSender, IResponseCommandCallback commandCallback){
 		this.n = n;
 		this.commandSender = commandSender;
 		this.commandCallback = commandCallback;
 	}
-	
+
 	@Override
-	public void onAction(IWlWidget widget) {
-		final WlSwitch wlswitch = (WlSwitch)widget;
-		final Command command = new SwitchCommand(this.n, wlswitch.isSwitched());
+	public void onPressed() {
+		final Command command = new PulseCommand(this.n, true); 
+		this.commandSender.sendCommand(command, this.commandCallback);
+	}
+
+	@Override
+	public void onReleased() {
+		final Command command = new PulseCommand(this.n, false); 
 		this.commandSender.sendCommand(command, this.commandCallback);
 	}
 }

@@ -11,7 +11,7 @@
 * Author: Pablo Orduña <pablo@ordunya.com>
 *
 */ 
-package es.deusto.weblab.client.experiments.arduino.ui;
+package es.deusto.weblab.client.experiments.mbed.ui;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
@@ -19,10 +19,11 @@ import com.google.gwt.user.client.ui.Label;
 import es.deusto.weblab.client.comm.exceptions.CommException;
 import es.deusto.weblab.client.configuration.IConfigurationRetriever;
 import es.deusto.weblab.client.dto.experiments.ResponseCommand;
+import es.deusto.weblab.client.experiments.mbed.ui.BaseExperimentPanel;
 import es.deusto.weblab.client.lab.comm.callbacks.IResponseCommandCallback;
 import es.deusto.weblab.client.lab.experiments.IBoardBaseController;
 
-public class ArduinoExperiment extends XilinxExperiment {
+public class MbedExperiment extends BaseExperimentPanel {
 
 	public static final String DUMMY_WEBCAM_IMAGE_URL_PROPERTY = "es.deusto.weblab.arduino.webcam.image.url";
 	public static final String DEFAULT_DUMMY_WEBCAM_IMAGE_URL       = "http://fpga.weblab.deusto.es/webcam/fpga0/image.jpg";
@@ -32,7 +33,7 @@ public class ArduinoExperiment extends XilinxExperiment {
 	
 	private final Label arduinoMessages;
 	
-	public ArduinoExperiment(IConfigurationRetriever configurationRetriever,
+	public MbedExperiment(IConfigurationRetriever configurationRetriever,
 			IBoardBaseController boardController) {
 		super(configurationRetriever, boardController);
 		this.arduinoMessages = new Label("messages here");
@@ -51,12 +52,12 @@ public class ArduinoExperiment extends XilinxExperiment {
 
 			@Override
 			public void onSuccess(ResponseCommand responseCommand) {
-			    ArduinoExperiment.this.processCommandSent(responseCommand);
+			    MbedExperiment.this.processCommandSent(responseCommand);
 			}
 		
 			@Override
 			public void onFailure(CommException e) {
-				ArduinoExperiment.this.arduinoMessages.setText("Error raised: " + e.getMessage());
+				MbedExperiment.this.arduinoMessages.setText("Error raised: " + e.getMessage());
 			}
 	    };
 	}
@@ -64,15 +65,15 @@ public class ArduinoExperiment extends XilinxExperiment {
 	private void processCommandSent(ResponseCommand responseCommand) {
 		if(!responseCommand.isEmpty()){
 			if (responseCommand.getCommandString().contains("WEBCAMURL")){				
-				ArduinoExperiment.this.webcam.setUrl(responseCommand.getCommandString().split("'")[3]);	
+				MbedExperiment.this.webcam.setUrl(responseCommand.getCommandString().split("'")[3]);	
 			}
 			else{
 				this.arduinoMessages.setText("Response command: " + responseCommand.getCommandString());
-				ArduinoExperiment.this.LogWindow.setText(ArduinoExperiment.this.LogWindow.getText() + "\n" + responseCommand.getCommandString());
+				
 			}
 		}
 		else
 			this.arduinoMessages.setText("Response command: empty");
-		ArduinoExperiment.this.LogWindow.setCursorPos(0);
+		
 	}
 }

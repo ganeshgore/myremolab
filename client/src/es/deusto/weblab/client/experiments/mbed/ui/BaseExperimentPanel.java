@@ -1,4 +1,4 @@
-package es.deusto.weblab.client.experiments.dummy.ui;
+package es.deusto.weblab.client.experiments.mbed.ui;
 
 import java.util.Vector;
 
@@ -9,11 +9,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,7 +28,8 @@ import es.deusto.weblab.client.lab.experiments.IBoardBaseController;
 import es.deusto.weblab.client.lab.experiments.commands.RequestWebcamCommand;
 import es.deusto.weblab.client.ui.widgets.IWlActionListener;
 import es.deusto.weblab.client.ui.widgets.WlButton.IWlButtonUsed;
-import es.deusto.weblab.client.ui.widgets.WlClockActivator;
+import es.deusto.weblab.client.ui.widgets.WlKeypad;
+import es.deusto.weblab.client.ui.widgets.WlKeypad.IWlKeyPadUsed;
 import es.deusto.weblab.client.ui.widgets.WlSwitch;
 import es.deusto.weblab.client.ui.widgets.WlTimedButton;
 import es.deusto.weblab.client.ui.widgets.WlTimer;
@@ -35,17 +37,14 @@ import es.deusto.weblab.client.ui.widgets.WlTimer.IWlTimerFinishedCallback;
 import es.deusto.weblab.client.ui.widgets.WlWaitingLabel;
 import es.deusto.weblab.client.ui.widgets.WlWebcam;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.SimplePanel;
-
-public class XilinxExperiment extends ExperimentBase{
+public class BaseExperimentPanel extends ExperimentBase{
 
 	
 	 /*********************************************************************************************************
 	 * UIBINDER RELATED
 	 ******************/
 	
-	interface WlDeustoXilinxBasedBoardUiBinder extends UiBinder<Widget, XilinxExperiment> {
+	interface WlDeustoXilinxBasedBoardUiBinder extends UiBinder<Widget, BaseExperimentPanel> {
 	}
 
 	private static final WlDeustoXilinxBasedBoardUiBinder uiBinder = GWT.create(WlDeustoXilinxBasedBoardUiBinder.class);
@@ -57,10 +56,10 @@ public class XilinxExperiment extends ExperimentBase{
 	private static final boolean DEFAULT_MULTIRESOURCE_XILINX_DEMO   = false;
 	
 	private static final String XILINX_WEBCAM_IMAGE_URL_PROPERTY      = "webcam.image.url";
-	private static final String DEFAULT_XILINX_WEBCAM_IMAGE_URL       = GWT.getModuleBaseURL() + "waiting_url_image.jpg";
+	private static final String DEFAULT_XILINX_WEBCAM_IMAGE_URL       = GWT.getModuleBaseURL() + "/img/arduino/webcam.jpg";
 	
 	private static final String XILINX_WEBCAM_REFRESH_TIME_PROPERTY   = "webcam.refresh.millis";
-	private static final int    DEFAULT_XILINX_WEBCAM_REFRESH_TIME    = 400;
+	private static final int    DEFAULT_XILINX_WEBCAM_REFRESH_TIME    = 200;
 	
 	public static class Style{
 		public static final String TIME_REMAINING         = "wl-time_remaining";
@@ -68,6 +67,7 @@ public class XilinxExperiment extends ExperimentBase{
 	}
 	
 	private static final boolean DEBUG_ENABLED = false;
+	
 	
 	@UiField public VerticalPanel verticalPanel;
 	@UiField VerticalPanel widget;
@@ -84,7 +84,7 @@ public class XilinxExperiment extends ExperimentBase{
 	//@UiField(provided=true)
 	private UploadStructure uploadStructure;
 	
-	private WlWebcam webcam;
+	public WlWebcam webcam;
 	
 	@UiField(provided = true)
 	WlTimer timer;
@@ -93,43 +93,31 @@ public class XilinxExperiment extends ExperimentBase{
 	
 	@UiField HorizontalPanel PushSwRow;
 	@UiField HorizontalPanel PulseSwRow;
+	@UiField HorizontalPanel KeypadRow;
+	
+	@UiField WlKeypad MyKeypad;
 	
 	@UiField Button BuilldButton;
 	@UiField Button upload2boardButton;
 	@UiField Button uploadFile;
-	@UiField TextBox LogWindow;
 	@UiField Label UploadStat;
 	@UiField VerticalPanel inputchekbx;
 	@UiField VerticalPanel outputchekbx;
 	
 	@UiField Image outputDeviceImage;
-	@UiField WlSwitch sw1;
-	@UiField WlSwitch sw2;
-	@UiField WlSwitch sw3;
-	@UiField WlSwitch sw4;
-	@UiField WlTimedButton psw1;
-	@UiField WlTimedButton psw2;
-	@UiField WlTimedButton psw3;
-	@UiField WlTimedButton psw4;
 	@UiField Button ResetArduino;
-	@UiField Button MaxButt;
-	@UiField VerticalPanel RightSide;
-	@UiField VerticalPanel LeftSide;
-	@UiField VerticalPanel SeperationPanel;
-	@UiField VerticalPanel ControlPanel;
-	@UiField VerticalPanel InputDevPanel;
-	@UiField SimplePanel OutDevPanel;
-	@UiField SimplePanel MiddleImage;
+	@UiField TextArea LogWindow;
 	
 	
 	private static Vector<CheckBox> inputChkBoxVec;
 	private static Vector<CheckBox> outputChkBoxVec;
-	private boolean zoom =  false;
+	private IWlButtonUsed buttonUsed = null;
+
 	
 	
 	//************************************Main Code Starts*************************************************
 	
-	public XilinxExperiment(IConfigurationRetriever configurationRetriever, IBoardBaseController boardController){
+	public BaseExperimentPanel(IConfigurationRetriever configurationRetriever, IBoardBaseController boardController){
 		super(configurationRetriever, boardController);
 		
 		this.inputChkBoxVec = new Vector<CheckBox>();
@@ -137,7 +125,7 @@ public class XilinxExperiment extends ExperimentBase{
 		
 		this.createProvidedWidgets();
 		
-		XilinxExperiment.uiBinder.createAndBindUi(this);
+		BaseExperimentPanel.uiBinder.createAndBindUi(this);
 		
 		this.webcamPanel.add(this.webcam.getWidget());
 				
@@ -145,6 +133,7 @@ public class XilinxExperiment extends ExperimentBase{
 		
 		prepareSwitchesRow();
 		prepareButtonsRow();
+		prepareKeypad();
 		
 	}
 	
@@ -155,26 +144,6 @@ public class XilinxExperiment extends ExperimentBase{
 		//this.uploadStructure.getFormPanel().setVisible(false);
 		this.boardController.sendFile(this.uploadStructure, this.sendFileCallback);
 	}
-	
-	@UiHandler("MaxButt")
-	void MaxButtClick(ClickEvent e) {
-		zoom = !zoom;
-		if (zoom){ // zoom
-			this.webcam.setSize(640, 480);
-			this.OutDevPanel.setVisible(false);
-			this.ControlPanel.setVisible(false);
-			this.MiddleImage.setVisible(false);
-			this.MaxButt.setText("Minimize");
-		}
-		else{     //unzoom
-			this.webcam.setSize(352, 288);
-			this.OutDevPanel.setVisible(true);
-			this.ControlPanel.setVisible(true);
-			this.MiddleImage.setVisible(true);
-			this.MaxButt.setText("Maximize");	
-		}
-	}
-	
 	
 	@UiHandler("BuilldButton")
 	void BuilldClick(ClickEvent e) {
@@ -204,8 +173,8 @@ public class XilinxExperiment extends ExperimentBase{
 				if(swi.getTitle().length() != 1) 
 					continue;
 				
-				final int id = this.PushSwRow.getWidgetCount() - Integer.parseInt(swi.getTitle()) - 1;
-				final IWlActionListener actionListener = new SwitchListener(id+2, this.boardController, this.getResponseCommandCallback());
+				final int id = Integer.parseInt(swi.getTitle());
+				final IWlActionListener actionListener = new SwitchListener(id, this.boardController, this.getResponseCommandCallback());
 				swi.addActionListener(actionListener);
 			}
 		}
@@ -229,6 +198,32 @@ public class XilinxExperiment extends ExperimentBase{
 		}
 	}
 	
+	private void prepareKeypad() {
+
+		//Keypad Button Press Handler
+		
+		this.MyKeypad.addButtonListener(new IWlKeyPadUsed(){
+				
+					@Override
+					public void onPressed() {
+						// TODO Auto-generated method stub
+						System.out.println("Pressed Code Running From Main Code " + BaseExperimentPanel.this.MyKeypad.key);
+						final String Commnad = new String("Keypad on"+BaseExperimentPanel.this.MyKeypad.key); 
+						BaseExperimentPanel.this.boardController.sendCommand(Commnad, getResponseCommandCallback());
+					}
+
+					@Override
+					public void onReleased() {
+						// TODO Auto-generated method stub
+						System.out.println("Released  Code Running From Main Code " + BaseExperimentPanel.this.MyKeypad.key);
+						final String Commnad = new String("Keypad off "+BaseExperimentPanel.this.MyKeypad.key ); 
+						BaseExperimentPanel.this.boardController.sendCommand(Commnad, getResponseCommandCallback());
+						
+					}
+				
+				});
+	}
+	
 	
 	/******************************************************************************
 	 * Creates those widgets that are specified in the UiBinder xml
@@ -246,7 +241,7 @@ public class XilinxExperiment extends ExperimentBase{
 		this.timer.setTimerFinishedCallback(new IWlTimerFinishedCallback(){
 			@Override
 			public void onFinished() {
-				XilinxExperiment.this.boardController.clean();
+				BaseExperimentPanel.this.boardController.clean();
 			}
 		});
 		
@@ -263,14 +258,14 @@ public class XilinxExperiment extends ExperimentBase{
 		//Adds Upload widget on experiment window 
 		this.fileupload.add(this.uploadStructure.getFormPanel());
 			
-		XilinxExperiment.this.UploadStat.setText("Verbose");
+		BaseExperimentPanel.this.UploadStat.setText("Verbose");
 		this.webcam.setVisible(false);
 		
 		
 		// Component Selection add handlers   (INPUT CHECKBOX)
 		for(int i = 0; i < this.inputchekbx.getWidgetCount(); ++i){
 			final CheckBox chk = (CheckBox) this.inputchekbx.getWidget(i);
-			XilinxExperiment.inputChkBoxVec.add(chk);
+			BaseExperimentPanel.inputChkBoxVec.add(chk);
 			chk.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
@@ -279,16 +274,16 @@ public class XilinxExperiment extends ExperimentBase{
 
 			      private void inputcompselectionevalutor(String name, Boolean value) {
 			    	  if (name.equals("44mat")){
-			    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.outputChkBoxVec,"charlcd",!value);
-			    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.outputChkBoxVec,"7seg",!value);
+			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"charlcd",!value);
+			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"7seg",!value);
 			    	  }
 			    	  else if (name.equals("4pushsw")){
-			    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.inputChkBoxVec,"4pulsesw",!value);
-			    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.outputChkBoxVec,"4led",!value);
+			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pulsesw",!value);
+			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"4led",!value);
 			    	  }
 			    	  else if (name.equals("4pulsesw")){
-			    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.inputChkBoxVec,"4pushsw",!value);
-			    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.outputChkBoxVec,"4led",!value);
+			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pushsw",!value);
+			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"4led",!value);
 			    	  }
 			    	  else {
 			    		  System.out.println("Error : Wrong response from input checkbox selection received " + name);
@@ -303,7 +298,7 @@ public class XilinxExperiment extends ExperimentBase{
 		
 		for(int i = 0; i < this.outputchekbx.getWidgetCount(); ++i){
 			final CheckBox chk = (CheckBox) this.outputchekbx.getWidget(i);
-			XilinxExperiment.outputChkBoxVec.add(chk);
+			BaseExperimentPanel.outputChkBoxVec.add(chk);
 			chk.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
@@ -312,16 +307,16 @@ public class XilinxExperiment extends ExperimentBase{
 
 			      	private void outputcompselectionevalutor(String name, Boolean value) {
 			      		if (name.equals("4led")){
-				    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.inputChkBoxVec,"4pulsesw",!value);
-				    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.inputChkBoxVec,"4pushsw",!value);
+				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pulsesw",!value);
+				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pushsw",!value);
 				    	  }
 				    	  else if (name.equals("7seg")){
-				    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.inputChkBoxVec,"44mat",!value);
-				    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.outputChkBoxVec,"charlcd",!value);
+				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"44mat",!value);
+				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"charlcd",!value);
 				    	  }
 				    	  else if (name.equals("charlcd")){
-				    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.inputChkBoxVec,"44mat",!value);
-				    		  XilinxExperiment.ChangeWidgetStat(XilinxExperiment.outputChkBoxVec,"7seg",!value);
+				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"44mat",!value);
+				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"7seg",!value);
 				    	  }
 				    	  else {
 				    		  System.out.println("Error : Wrong response from output checkbox selection received " + name);
@@ -380,9 +375,9 @@ public class XilinxExperiment extends ExperimentBase{
 		this.loadWidgets();
 		this.disableInteractiveWidgets();
 		
-		XilinxExperiment.this.enableInteractiveWidgets();
-		XilinxExperiment.this.messages.setText("Device ready");
-		XilinxExperiment.this.messages.stop();
+		BaseExperimentPanel.this.enableInteractiveWidgets();
+		BaseExperimentPanel.this.messages.setText("Device ready");
+		BaseExperimentPanel.this.messages.stop();
 			
 		this.uploadStructurePanel.setVisible(false);
 		
@@ -397,15 +392,15 @@ public class XilinxExperiment extends ExperimentBase{
 	    @Override
 	    public void onSuccess(ResponseCommand response) {
 	    	//XilinxExperiment.this.uploadStructure.getFormPanel().setVisible(true);
-	    	XilinxExperiment.this.UploadStat.setText("Ready");
+	    	BaseExperimentPanel.this.UploadStat.setText("Ready");
 	    }
 
 	    @Override
 	    public void onFailure(CommException e) {
 	    	
 	    	//XilinxExperiment.this.uploadStructure.getFormPanel().setVisible(true);
-	    	XilinxExperiment.this.UploadStat.setText("Error");
-			XilinxExperiment.this.LogWindow.setText("Error sending file: " + e.getMessage());
+	    	BaseExperimentPanel.this.UploadStat.setText("Error");
+			BaseExperimentPanel.this.LogWindow.setText("Error sending file: " + e.getMessage());
 		    
 	    }
 	};	
@@ -425,7 +420,8 @@ public class XilinxExperiment extends ExperimentBase{
 		this.innerVerticalPanel.setSpacing(20);
 		
 		// Set input Peripheral image
-		if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"44mat")).getValue());
+		if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"44mat")).getValue())
+			this.KeypadRow.setVisible(true);
 		else if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"4pushsw")).getValue())
 			this.PushSwRow.setVisible(true);
 		else if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"4pulsesw")).getValue())
@@ -449,6 +445,8 @@ public class XilinxExperiment extends ExperimentBase{
 		}
 		else
 			Window.alert("No Output device Selected");
+		
+		this.boardController.sendCommand("WEBCAMURL", this.getResponseCommandCallback());
 	}
 	
 
@@ -490,15 +488,15 @@ public class XilinxExperiment extends ExperimentBase{
 	
 	private String getWebcamImageUrl() {
 		return this.configurationRetriever.getProperty(
-				XilinxExperiment.XILINX_WEBCAM_IMAGE_URL_PROPERTY, 
-				XilinxExperiment.DEFAULT_XILINX_WEBCAM_IMAGE_URL
+				BaseExperimentPanel.XILINX_WEBCAM_IMAGE_URL_PROPERTY, 
+				BaseExperimentPanel.DEFAULT_XILINX_WEBCAM_IMAGE_URL
 			);
 	}
 
 	private int getWebcamRefreshingTime() {
 		return this.configurationRetriever.getIntProperty(
-				XilinxExperiment.XILINX_WEBCAM_REFRESH_TIME_PROPERTY, 
-				XilinxExperiment.DEFAULT_XILINX_WEBCAM_REFRESH_TIME
+				BaseExperimentPanel.XILINX_WEBCAM_REFRESH_TIME_PROPERTY, 
+				BaseExperimentPanel.DEFAULT_XILINX_WEBCAM_REFRESH_TIME
 			);
 	}	
 	
@@ -516,8 +514,8 @@ public class XilinxExperiment extends ExperimentBase{
 		    @Override
 			public void onFailure(CommException e) {
     			GWT.log("responseCommand: failure", null);
-    			XilinxExperiment.this.messages.stop();
-    			XilinxExperiment.this.messages.setText("Error sending command: " + e.getMessage());
+    			BaseExperimentPanel.this.messages.stop();
+    			BaseExperimentPanel.this.messages.setText("Error sending command: " + e.getMessage());
 		    }
 		};	    
 	}
