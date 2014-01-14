@@ -19,7 +19,8 @@ import java.util.Vector;
 
 import es.deusto.weblab.client.experiments.arduino.ArduinoCreatorFactory;
 import es.deusto.weblab.client.experiments.dummy.DummyCreatorFactory;
-import es.deusto.weblab.client.experiments.xilinx.XilinxCreatorFactory;
+import es.deusto.weblab.client.experiments.mbed.MbedCreatorFactory;
+import es.deusto.weblab.client.experiments.fpga.FpgaCreatorFactory;
 import es.deusto.weblab.client.lab.experiments.util.applets.flash.FlashAppCreatorFactory;
 import es.deusto.weblab.client.lab.experiments.util.applets.java.JavaAppletCreatorFactory;
 import es.deusto.weblab.client.lab.experiments.util.applets.js.JSAppCreatorFactory;
@@ -34,7 +35,8 @@ class EntryRegistry {
 		new FlashAppCreatorFactory(),
 		new JavaAppletCreatorFactory(),
 		new JSAppCreatorFactory(),
-		new XilinxCreatorFactory(),
+		new MbedCreatorFactory(),
+		new FpgaCreatorFactory(),
 		new ArduinoCreatorFactory(),
 		new DummyCreatorFactory(),
 	};

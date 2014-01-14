@@ -5,11 +5,14 @@ experiments/arduino.py
 experiments/arduino.py~
 experiments/arduino1.py
 experiments/arduino1.py~
+experiments/arduino1Backup.py
 experiments/arduino2.py
 experiments/arduino2.py~
 experiments/arduino_variables
 experiments/arduino_variables~
 experiments/dummy.py
+experiments/fpga1.py
+experiments/mbed1.py
 experiments/programmers.py
 experiments/programmers.py~
 voodoo/__init__.py

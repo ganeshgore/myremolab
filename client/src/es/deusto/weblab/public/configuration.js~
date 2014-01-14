@@ -18,13 +18,13 @@
 	"development"                    : true, // To see the latest features, although they might not be working
 	"demo.available"                 : true,
 	"sound.enabled"					 : false,
-	"admin.email"                    : "weblab@deusto.es",
+	"admin.email"                    : "contact@eduvance.in",
 	"google.analytics.tracking.code" : "UA-12576838-6",
 	"experiments.default_picture"	 : "/img/experiments/default.jpg",
 	"host.entity.image.login"        : "/img/udeusto-logo.jpg",
 	"host.entity.image"              : "/img/udeusto-logo-main.jpg",
 	"host.entity.image.mobile"       : "/img/udeusto-logo-mobile.jpg",
-	"host.entity.link"               : "http://www.deusto.es/",
+	"host.entity.link"               : "http://www.eduvance.in/",
     "facebook.like.box.visible"      : false,
 	"experiments" : { 
 	                "dummy" : [
@@ -33,6 +33,50 @@
 	                        	   "experiment.category" : "Dummy experiments"
 	                           }
 	                       ],
+	                "fpga" : [
+	                           {
+	                        	   "experiment.name"     : "fpga1",
+	                        	   "experiment.category" : "fpga experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "fpga2",
+	                        	   "experiment.category" : "fpga experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "fpga3",
+	                        	   "experiment.category" : "fpga experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "fpga4",
+	                        	   "experiment.category" : "fpga experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "fpga5",
+	                        	   "experiment.category" : "fpga experiments"
+	                           }
+	                       ],
+	                "mbed" : [
+	                           {
+	                        	   "experiment.name"     : "mbed1",
+	                        	   "experiment.category" : "ARM experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "mbed2",
+	                        	   "experiment.category" : "ARM experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "mbed3",
+	                        	   "experiment.category" : "ARM experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "mbed4",
+	                        	   "experiment.category" : "ARM experiments"
+	                           },
+	                           {
+	                        	   "experiment.name"     : "mbed5",
+	                        	   "experiment.category" : "ARM experiments"
+	                           }
+	                       ]
 	                "arduino" : [
 	                           {
 	                        	   "experiment.name"     : "arduino1",
@@ -54,6 +98,6 @@
 	                        	   "experiment.name"     : "arduino5",
 	                        	   "experiment.category" : "Basic experiments"
 	                           }
-	                       ],
+	                       ]
 		}
 }

@@ -125,6 +125,33 @@ class ArduinoBaseBoard:
             print "Device Error " + str(e)
             status = False
         return status 
-                
+ 
+ 
+ class GeneralBaseBoard:    
+    def __init__(self, portname):
+        #super(GeneralBaseBoard, self).__init__()
+        self.Generalbaseboard_port   = portname
+
+    @abstractmethod
+    def checkdevice(self):
+        return 1  
+        
+    @abstractmethod
+    def sendcommand(self, cmd2send):
+        try:
+            ser = serial.Serial(self.Generalbaseboard_port,9600,timeout=1)                
+            ser.write(str(cmd2send) + chr(0x0D))
+            reponse = ser.readline()
+            if(reponse == '' ):
+                print "Error No response from Device"
+                status = False
+            else:
+                print reponse, " - Command Sent Successfully"
+                status = True
+            ser.close()
+        except Exception as e: 
+            print "Device Error " + str(e)
+            status = False
+        return status               
 
           

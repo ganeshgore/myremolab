@@ -30,7 +30,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class WlWebcam extends VerticalPanel implements IWlWidget{
 	
-	public static final String DEFAULT_IMAGE_URL = GWT.getModuleBaseURL() + "/waiting_url_image.jpg";
+	//public static final String DEFAULT_IMAGE_URL = GWT.getModuleBaseURL() + "/waiting_url_image.jpg";
+	public static final String DEFAULT_IMAGE_URL = "/weblab/arduino1/arduino/video.mjpeg";
 	public static final int DEFAULT_REFRESH_TIME = 400;
 	
 	protected Image image;
@@ -211,6 +212,10 @@ public class WlWebcam extends VerticalPanel implements IWlWidget{
 		this.streamingHeight = height; 
 		this.streamingWidth  = width; 
 		this.reloadPanel();
+	}
+	
+	public void setSize(int width, int height){
+		this.image.setPixelSize(width, height);
 	}
 	
 	@Override
