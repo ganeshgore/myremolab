@@ -91,20 +91,15 @@ public class BaseExperimentPanel extends ExperimentBase{
 	@UiField HorizontalPanel controlButtons;
 	@UiField HorizontalPanel fileupload;
 	
-	@UiField HorizontalPanel PushSwRow;
+	@UiField HorizontalPanel PushSwRow1;
+	@UiField HorizontalPanel PushSwRow2;
 	@UiField HorizontalPanel PulseSwRow;
 	@UiField HorizontalPanel KeypadRow;
 	
 	@UiField WlKeypad MyKeypad;
-	
-	@UiField Button BuilldButton;
-	@UiField Button upload2boardButton;
 	@UiField Button uploadFile;
 	@UiField Label UploadStat;
-	@UiField VerticalPanel inputchekbx;
-	@UiField VerticalPanel outputchekbx;
 	
-	@UiField Image outputDeviceImage;
 	@UiField Button ResetArduino;
 	@UiField TextArea LogWindow;
 	
@@ -141,18 +136,8 @@ public class BaseExperimentPanel extends ExperimentBase{
 	
 	@UiHandler("uploadFile")
 	void uploadFileClick(ClickEvent e) {
-		//this.uploadStructure.getFormPanel().setVisible(false);
 		this.boardController.sendFile(this.uploadStructure, this.sendFileCallback);
-	}
-	
-	@UiHandler("BuilldButton")
-	void BuilldClick(ClickEvent e) {
-		this.boardController.sendCommand("build", this.getResponseCommandCallback());
-	}
-	
-	@UiHandler("upload2boardButton")
-	void upload2boardClick(ClickEvent e) {
-		this.boardController.sendCommand("upload2board", this.getResponseCommandCallback());
+		
 	}
 	
 	@UiHandler("ResetArduino")
@@ -164,8 +149,22 @@ public class BaseExperimentPanel extends ExperimentBase{
 		
 	private void prepareSwitchesRow() {
 		
-		for(int i = 0; i < this.PushSwRow.getWidgetCount(); ++i){
-			final Widget wid = this.PushSwRow.getWidget(i);
+		for(int i = 0; i < this.PushSwRow1.getWidgetCount(); ++i){
+			final Widget wid = this.PushSwRow1.getWidget(i);
+			if(wid instanceof WlSwitch) {
+				final WlSwitch swi = (WlSwitch)wid;
+				// Avoid trying to convert non-numerical titles (which serve
+				// as identifiers). Not exactly an elegant way to do it.
+				if(swi.getTitle().length() != 1) 
+					continue;
+				
+				final int id = Integer.parseInt(swi.getTitle());
+				final IWlActionListener actionListener = new SwitchListener(id, this.boardController, this.getResponseCommandCallback());
+				swi.addActionListener(actionListener);
+			}
+		}
+		for(int i = 0; i < this.PushSwRow2.getWidgetCount(); ++i){
+			final Widget wid = this.PushSwRow2.getWidget(i);
 			if(wid instanceof WlSwitch) {
 				final WlSwitch swi = (WlSwitch)wid;
 				// Avoid trying to convert non-numerical titles (which serve
@@ -260,97 +259,9 @@ public class BaseExperimentPanel extends ExperimentBase{
 			
 		BaseExperimentPanel.this.UploadStat.setText("Verbose");
 		this.webcam.setVisible(false);
-		
-		
-		// Component Selection add handlers   (INPUT CHECKBOX)
-		for(int i = 0; i < this.inputchekbx.getWidgetCount(); ++i){
-			final CheckBox chk = (CheckBox) this.inputchekbx.getWidget(i);
-			BaseExperimentPanel.inputChkBoxVec.add(chk);
-			chk.addClickHandler(new ClickHandler() {
-			      @Override
-				public void onClick(ClickEvent event) {
-			    	  this.inputcompselectionevalutor(chk.getName(),chk.getValue());
-			      }
-
-			      private void inputcompselectionevalutor(String name, Boolean value) {
-			    	  if (name.equals("44mat")){
-			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"charlcd",!value);
-			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"7seg",!value);
-			    	  }
-			    	  else if (name.equals("4pushsw")){
-			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pulsesw",!value);
-			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"4led",!value);
-			    	  }
-			    	  else if (name.equals("4pulsesw")){
-			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pushsw",!value);
-			    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"4led",!value);
-			    	  }
-			    	  else {
-			    		  System.out.println("Error : Wrong response from input checkbox selection received " + name);
-			    	  }
-		
-			      }
-			 
-			    });
-		}
-		
-	// Component Selection add handlers   (OUTPUT CHECKBOX)
-		
-		for(int i = 0; i < this.outputchekbx.getWidgetCount(); ++i){
-			final CheckBox chk = (CheckBox) this.outputchekbx.getWidget(i);
-			BaseExperimentPanel.outputChkBoxVec.add(chk);
-			chk.addClickHandler(new ClickHandler() {
-			      @Override
-				public void onClick(ClickEvent event) {
-			    	  this.outputcompselectionevalutor(chk.getName(),chk.getValue());
-			      	}
-
-			      	private void outputcompselectionevalutor(String name, Boolean value) {
-			      		if (name.equals("4led")){
-				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pulsesw",!value);
-				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"4pushsw",!value);
-				    	  }
-				    	  else if (name.equals("7seg")){
-				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"44mat",!value);
-				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"charlcd",!value);
-				    	  }
-				    	  else if (name.equals("charlcd")){
-				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.inputChkBoxVec,"44mat",!value);
-				    		  BaseExperimentPanel.ChangeWidgetStat(BaseExperimentPanel.outputChkBoxVec,"7seg",!value);
-				    	  }
-				    	  else {
-				    		  System.out.println("Error : Wrong response from output checkbox selection received " + name);
-				    	  }			  		
-			  		}				
-			    });
-		}
-		
-	//final IWlActionListener actionListener = new SwitchListener(1, this.boardController, this.getResponseCommandCallback());
-	//this.sw1.addActionListener(actionListener);
 	}
 	
 
-	
-	///* * * * * * * * * *  Routine to modify widgets from array * * * * * * * * * *
-	private static void ChangeWidgetStat(Vector<CheckBox> outputChkBoxVec,
-			String string, boolean value) {
-		for(int i=0;i<outputChkBoxVec.size();i++){
-			if(outputChkBoxVec.get(i).getName().equals(string)){
-				outputChkBoxVec.get(i).setEnabled(value);
-			}						
-		}					
-	}
-	
-	private Integer getIndexWithName(Vector<CheckBox> outputChkBoxVec,
-			String string) {
-		for(int i=0;i<outputChkBoxVec.size();i++){
-			if(outputChkBoxVec.get(i).getName().equals(string)){
-				return i;
-			}
-		}	
-		return -1;
-	}
-	
 	//* * * * * * * * * * * * * * Runs While waiting in queue * * * * * * * *
 	@Override
 	public void queued(){
@@ -393,6 +304,7 @@ public class BaseExperimentPanel extends ExperimentBase{
 	    public void onSuccess(ResponseCommand response) {
 	    	//XilinxExperiment.this.uploadStructure.getFormPanel().setVisible(true);
 	    	BaseExperimentPanel.this.UploadStat.setText("Ready");
+	    	BaseExperimentPanel.this.boardController.sendCommand("upload2board", BaseExperimentPanel.this.getResponseCommandCallback());
 	    }
 
 	    @Override
@@ -418,33 +330,6 @@ public class BaseExperimentPanel extends ExperimentBase{
 		this.messages.start();
 		
 		this.innerVerticalPanel.setSpacing(20);
-		
-		// Set input Peripheral image
-		if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"44mat")).getValue())
-			this.KeypadRow.setVisible(true);
-		else if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"4pushsw")).getValue())
-			this.PushSwRow.setVisible(true);
-		else if(inputChkBoxVec.get(this.getIndexWithName(inputChkBoxVec,"4pulsesw")).getValue())
-			this.PulseSwRow.setVisible(true);
-		else
-			Window.alert("No Input device Selected");
-		
-		this.boardController.sendCommand("ResetOP", this.getResponseCommandCallback());
-		// Set Output Peripheral image
-		if(outputChkBoxVec.get(this.getIndexWithName(outputChkBoxVec,"4led")).getValue()){
-			this.outputDeviceImage.setUrl("weblabclientlab/img/arduino/LED.jpg");
-			this.boardController.sendCommand("SelectLED", this.getResponseCommandCallback());
-		}
-		else if(outputChkBoxVec.get(this.getIndexWithName(outputChkBoxVec,"7seg")).getValue()){
-			this.outputDeviceImage.setUrl("weblabclientlab/img/arduino/7SEG.jpg");
-			this.boardController.sendCommand("SelectSEG", this.getResponseCommandCallback());
-		}
-		else if(outputChkBoxVec.get(this.getIndexWithName(outputChkBoxVec,"charlcd")).getValue()){
-			this.outputDeviceImage.setUrl("weblabclientlab/img/arduino/LCD.jpg");
-			this.boardController.sendCommand("SelectLCD", this.getResponseCommandCallback());
-		}
-		else
-			Window.alert("No Output device Selected");
 		
 		this.boardController.sendCommand("WEBCAMURL", this.getResponseCommandCallback());
 	}

@@ -20,23 +20,26 @@
 				<!--  Panel with the buttons -->
 				<g:HorizontalPanel width="100%" height="100%" verticalAlignment="ALIGN_BOTTOM">
 					<g:VerticalPanel width="450px" verticalAlignment="ALIGN_BOTTOM">
-						<g:SimplePanel>
-							<g:Image width="450px" height="180px" url="weblabclientlab/img/arduino/breadboard.png" ui:field="outputDeviceImage"/>
-						</g:SimplePanel>
-						<g:SimplePanel ui:field="CenterImage">
-							<g:Image width="450px" height="300px" url="weblabclientlab/img/mbed/mbedpinout.png"/>
-						</g:SimplePanel>
-						<g:HorizontalPanel ui:field="PushSwRow" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pushSwPan" verticalAlignment="ALIGN_MIDDLE" visible="false">
-							<w:WlSwitch title="3" spacing="5" ui:field="sw1"></w:WlSwitch>
-							<w:WlSwitch title="2" spacing="5" ui:field="sw2"></w:WlSwitch>
-							<w:WlSwitch title="1" spacing="5" ui:field="sw3"></w:WlSwitch>
-							<w:WlSwitch title="0" spacing="5" ui:field="sw4"></w:WlSwitch>
-						</g:HorizontalPanel>
-						<g:HorizontalPanel ui:field="PulseSwRow" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pulseSwPan" verticalAlignment="ALIGN_MIDDLE" visible="false">
+						<g:HorizontalPanel ui:field="PulseSwRow" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pulseSwPan" verticalAlignment="ALIGN_MIDDLE" >
 							<w:WlTimedButton title="3" ui:field="psw1"></w:WlTimedButton>
 							<w:WlTimedButton title="2" ui:field="psw2"></w:WlTimedButton>
 							<w:WlTimedButton title="1" ui:field="psw3"></w:WlTimedButton>
 							<w:WlTimedButton title="0" ui:field="psw4"></w:WlTimedButton>					
+						</g:HorizontalPanel>
+						<g:SimplePanel ui:field="CenterImage">
+							<g:Image width="450px" height="300px" url="weblabclientlab/img/fpga/BASYS2.jpg"/>
+						</g:SimplePanel>
+						<g:HorizontalPanel ui:field="PushSwRow1" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pushSwPan" verticalAlignment="ALIGN_MIDDLE" >
+							<w:WlSwitch title="3" spacing="5" ui:field="sw11"></w:WlSwitch>
+							<w:WlSwitch title="2" spacing="5" ui:field="sw12"></w:WlSwitch>
+							<w:WlSwitch title="1" spacing="5" ui:field="sw13"></w:WlSwitch>
+							<w:WlSwitch title="0" spacing="5" ui:field="sw14"></w:WlSwitch>
+						</g:HorizontalPanel>
+						<g:HorizontalPanel ui:field="PushSwRow2" width="450px" height="180px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-pushSwPan" verticalAlignment="ALIGN_MIDDLE" >
+							<w:WlSwitch title="7" spacing="5" ui:field="sw21"></w:WlSwitch>
+							<w:WlSwitch title="6" spacing="5" ui:field="sw22"></w:WlSwitch>
+							<w:WlSwitch title="5" spacing="5" ui:field="sw23"></w:WlSwitch>
+							<w:WlSwitch title="4" spacing="5" ui:field="sw24"></w:WlSwitch>
 						</g:HorizontalPanel>
 						<g:HorizontalPanel ui:field="KeypadRow" width="450px" horizontalAlignment="ALIGN_CENTER" styleName="gwt-exp-KeypadPan" verticalAlignment="ALIGN_MIDDLE" visible="false">
 							<w:WlKeypad ui:field="MyKeypad" title="matkeypad"></w:WlKeypad>				
@@ -66,14 +69,9 @@
 						</g:HorizontalPanel>
 						
 						<g:HorizontalPanel width="100%" verticalAlignment="ALIGN_BOTTOM" horizontalAlignment="ALIGN_RIGHT" spacing="1">
-							<g:SimplePanel width="300px" height="120px">
-								<g:TextArea width="100%" height="100%" ui:field="LogWindow" text="log window" styleName="gwt-logwindow"/>
-							</g:SimplePanel>
 							
-							<g:VerticalPanel verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER" spacing="20" width="150px">
-								<g:Button ui:field="BuilldButton" text="Build Code"/>
-								<g:Button ui:field="upload2boardButton" text="Upload to Board"/>
-							</g:VerticalPanel>
+								<g:TextArea width="100%" height="100%" ui:field="LogWindow" text="log window" styleName="gwt-logwindow"/>
+							
 							
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
@@ -85,20 +83,7 @@
 		
 		<!-- The upload form will be inserted into this panel. -->
 		<g:HorizontalPanel ui:field="uploadStructurePanel" horizontalAlignment="ALIGN_CENTER" width="100%">
-			
-			<g:VerticalPanel ui:field="inputchekbx" horizontalAlignment="ALIGN_LEFT" width="150px">
-				<g:CheckBox ui:field='chkBox4' name="44mat">4x4 Matrix Keypad</g:CheckBox>
-				<g:CheckBox ui:field='chkBox5' name="4pushsw">4 Push Switch</g:CheckBox>
-				<g:CheckBox ui:field='chkBox6' name="4pulsesw">4 Pulse Switch</g:CheckBox>
-			</g:VerticalPanel>
-			
-			<g:VerticalPanel ui:field="outputchekbx" horizontalAlignment="ALIGN_LEFT" width="150px">		
-				<g:CheckBox ui:field='chkBox1' name="4led">4 LEDs Bar</g:CheckBox>
-				<g:CheckBox ui:field='chkBox2' name="7seg">7Segment Display</g:CheckBox>
-				<g:CheckBox ui:field='chkBox3' name="charlcd">Character LCD</g:CheckBox>
-			</g:VerticalPanel>
-					    
-			
+				
 		</g:HorizontalPanel>
 		
 	</g:VerticalPanel>

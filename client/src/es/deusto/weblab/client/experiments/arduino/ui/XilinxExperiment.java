@@ -208,7 +208,7 @@ public class XilinxExperiment extends ExperimentBase{
 					public void onPressed() {
 						// TODO Auto-generated method stub
 						System.out.println("Pressed Code Running From Main Code " + XilinxExperiment.this.MyKeypad.key);
-						final String Commnad = new String("Keypad on"+XilinxExperiment.this.MyKeypad.key); 
+						final String Commnad = new String("ChangeKeypad on "+XilinxExperiment.this.MyKeypad.key); 
 						XilinxExperiment.this.boardController.sendCommand(Commnad, getResponseCommandCallback());
 					}
 
@@ -216,7 +216,7 @@ public class XilinxExperiment extends ExperimentBase{
 					public void onReleased() {
 						// TODO Auto-generated method stub
 						System.out.println("Released  Code Running From Main Code " + XilinxExperiment.this.MyKeypad.key);
-						final String Commnad = new String("Keypad off "+XilinxExperiment.this.MyKeypad.key ); 
+						final String Commnad = new String("ChnageKeypad off "+XilinxExperiment.this.MyKeypad.key ); 
 						XilinxExperiment.this.boardController.sendCommand(Commnad, getResponseCommandCallback());
 						
 					}

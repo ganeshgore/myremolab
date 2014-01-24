@@ -17,34 +17,30 @@
 		<g:HorizontalPanel>
 			<g:VerticalPanel  ui:field="mykeypad" height="230px" 	 width="230px" styleName="keypadBack" verticalAlignment="ALIGN_MIDDLE" >
 				<g:HorizontalPanel  spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
-					<g:Button  title="1" width="29px" height="29px" styleName="colorButton">1</g:Button>
-					<g:Button  title="2" width="29px" height="29px" styleName="colorButton">2</g:Button>
-					<g:Button  title="3" width="29px" height="29px" styleName="colorButton">3</g:Button>
-					<g:Button  title="A" width="29px" height="29px" styleName="colorButton">A</g:Button>
+					<g:Button  title="11" width="29px" height="29px" styleName="colorButton">1</g:Button>
+					<g:Button  title="12" width="29px" height="29px" styleName="colorButton">2</g:Button>
+					<g:Button  title="13" width="29px" height="29px" styleName="colorButton">3</g:Button>
 				</g:HorizontalPanel>
 							
 							
 				<g:HorizontalPanel  spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
-					<g:Button  title="4"	width="29px" height="29px" styleName="colorButton">4</g:Button>
-					<g:Button  title="5"	width="29px" height="29px" styleName="colorButton">5</g:Button>
-					<g:Button  title="6"	width="29px" height="29px" styleName="colorButton">6</g:Button>
-					<g:Button  title="B"	width="29px" height="29px" styleName="colorButton">B</g:Button>
+					<g:Button  title="21"	width="29px" height="29px" styleName="colorButton">4</g:Button>
+					<g:Button  title="22"	width="29px" height="29px" styleName="colorButton">5</g:Button>
+					<g:Button  title="23"	width="29px" height="29px" styleName="colorButton">6</g:Button>
 				</g:HorizontalPanel>
 							
 							
 				<g:HorizontalPanel spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
-					<g:Button  title="7"  width="29px" height="29px" styleName="colorButton">7</g:Button>
-					<g:Button  title="8"  width="29px" height="29px" styleName="colorButton">8</g:Button>
-					<g:Button  title="9"  width="29px" height="29px" styleName="colorButton">9</g:Button>
-					<g:Button  title="C"  width="29px" height="29px" styleName="colorButton">C</g:Button>
+					<g:Button  title="31"  width="29px" height="29px" styleName="colorButton">7</g:Button>
+					<g:Button  title="32"  width="29px" height="29px" styleName="colorButton">8</g:Button>
+					<g:Button  title="33"  width="29px" height="29px" styleName="colorButton">9</g:Button>
 				</g:HorizontalPanel>
 							
 							
 				<g:HorizontalPanel spacing="4"	 width="200px" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE" height="30px">
-					<g:Button  title="*"   width="29px" height="29px" styleName="colorButton2">*</g:Button>
-					<g:Button  title="0"  width="29px" height="29px" styleName="colorButton">0</g:Button>
-					<g:Button  title="#"  width="29px" height="29px" styleName="colorButton2">#</g:Button>
-					<g:Button  title="D"  width="29px" height="29px" styleName="colorButton">D</g:Button>
+					<g:Button  title="41"   width="29px" height="29px" styleName="colorButton2">*</g:Button>
+					<g:Button  title="42"  width="29px" height="29px" styleName="colorButton">0</g:Button>
+					<g:Button  title="43"  width="29px" height="29px" styleName="colorButton2">#</g:Button>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
